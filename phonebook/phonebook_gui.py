@@ -16,7 +16,7 @@ def load_gui(self):
     self.lbl_fname = tk.Label(self.master, text="First Name:")
     self.lbl_fname.grid(row=0, column=0, padx=(27, 0), pady=(10, 0), sticky=N + W)
     self.lbl_lname = tk.Label(self.master, text="Last Name:")
-    self.lbl_lname.grid(row=2, column=0, padx=(27, 0), pady=(10, 0), sricky=N + W)
+    self.lbl_lname.grid(row=2, column=0, padx=(27, 0), pady=(10, 0), sticky=N + W)
     self.lbl_phone = tk.Label(self.master, text="Phone Number:")
     self.lbl_phone.grid(row=4, column=0, padx=(27, 0), pady=(10, 0), sticky=N + W)
     self.lbl_email = tk.Label(self.master, text="Email Address:")
@@ -124,7 +124,7 @@ def load_gui(self):
         text="Close",
         command=lambda: phonebook_func.ask_quit(self),
     )
-    self.btn_clsoe.grid(
+    self.btn_close.grid(
         row=8, column=4, columnspan=1, padx=(15, 0), pady=(45, 10), sticky=E
     )
 
