@@ -24,17 +24,29 @@ class ParentWindow(Frame):
         # Center window method will center the app on the users screen
         phonebook_func.center_window(self, 500, 300)
         self.master.title("The Tkinter Phonebook Demo")
-        self.master.configure(bg="#202020")
+        self.master.configure(bg="#F0F0F0")
 
         # This protocol method is as tkinter built-in method to catch if
         # the user clicks the upper corner "X" in Windows
-        self.master.protocol("WM_DLETE_WINDOW", lambda: phonebook_func.ask_quit(self))
+        self.master.protocol("WM_DELETE_WINDOW", lambda: phonebook_func.ask_quit(self))
         arg = self.master
 
         # load in GUI widgets from a separate module,
         # keeping your code compartmentalized and clutter free
         phonebook_gui.load_gui(self)
 
+
+"""
+    It is from these few lines of code that Python will begin our gui and application
+    The (if __name__ == "__main__":) part is basically telling Python that if this script
+    is ran, it should start by running the code below this line....in this case we have
+    instructed Python to run the following and in this order:
+
+    root = tk.Tk()              #This Instantiates the Tk.() root frame (window) into being
+    App = ParentWindow(root)    #This instantiates our own class as an App object
+    root.mainloop()             #This ensures the Tkinter class object, our window, to keep looping
+                                #meaning, it will stay open until we instruct it to close
+"""
 
 if __name__ == "__main__":
     root = tk.Tk()

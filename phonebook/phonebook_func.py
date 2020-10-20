@@ -56,15 +56,14 @@ def create_db(self):
 
 
 def first_run(self):
-    conn = sqlite3.connect("db_phonebook.db")
+    conn = sqlite3.connect("phonebook.db")
     with conn:
         cur = conn.cursor()
         cur, count = count_records(cur)
         if count < 1:
             cur.execute(
                 "INSERT INTO tbl_phonebook (col_fname,col_lname,col_fullname,col_phone,col_email) VALUES (?,?,?,?,?)",
-                ("John", "Doe", "John Doe", "111-111-1111", "jdoe@email.com"),
-            )
+                ("John", "Doe", "John Doe", "111-111-1111", "jdoe@email.com"))
             conn.commit()
     conn.close()
 
@@ -87,10 +86,9 @@ def onSelect(self, event):
         cursor = conn.cursor()
         cursor.execute(
             "SELECT col_fname, col_lname, col_phone, col_email FROM tbl_phonebook WHERE col_fullname = (?)",
-            [value],
-        )
+            [value])
         varBody = cursor.fetchall()
-        # This returns a tuple and we can slice it into 4 poarts using data[] during the interaction
+        # This returns a tuple and we can slice it into 4 parts using data[] during the interaction
     for data in varBody:
         self.txt_fname.delete(0, END)
         self.txt_fname.insert(0, data[0])
@@ -105,7 +103,7 @@ def onSelect(self, event):
 def addToList(self):
     var_fname = self.txt_fname.get()
     var_lname = self.txt_lname.get()
-    # normaluze the data to keep it consistent in the database
+    # normalize the data to keep it consistent in the database
     var_fname = (
         var_fname.strip()
     )  # This will remove and blank spaces before and afer the user's entry
@@ -133,7 +131,7 @@ def addToList(self):
             cursor = conn.cursor()
             # chedk the db for existance of the fullname, if so we will alert user and disregard request
             cursor.execute(
-                "SELECT COUNT(col_fullname) FROM tbl_phonebook WHERE col_fullnmame = '{}'".format(
+                "SELECT COUNT(col_fullname) FROM tbl_phonebook WHERE col_fullname = '{}'".format(
                     var_fullname
                 )
             )
@@ -144,9 +142,8 @@ def addToList(self):
             ):  # if this is 0 then there is no existance of the fullname and we can add new data
                 print("chkName: {}".format(chkName))
                 cursor.execute(
-                    "INSERT INTO tbl_phonebook (col_fname, col_lname, col_fullname, col_phone, col_email) VALUES (?, ?, ?, ?, ?)".format(
-                        var_fname, var_lname, var_fullname, var_phone, var_email
-                    )
+                    "INSERT INTO tbl_phonebook (col_fname, col_lname, col_fullname, col_phone, col_email) VALUES (?, ?, ?, ?, ?)",
+                    (var_fname, var_lname, var_fullname, var_phone, var_email)
                 )
                 self.lstList1.insert(
                     END, var_fullname
@@ -157,7 +154,7 @@ def addToList(self):
                     "Name Error",
                     "'{}' already exists in the database! Please choose a different name.".format(
                         var_fullname
-                    ),
+                    )
                 )
                 onClear(self)  # call the function to clear all text boxes
         conn.commit()
@@ -181,7 +178,9 @@ def onDelete(self):
         count = cur.fetchone()[0]
         if count > 1:
             confirm = messagebox.askokcancel(
-                "Delete Confirmation associated with, ({}) \nwill be permanantly deleted"
+                "Delete Confirmation associated with, ({}) \nwill be permanantly deleted".format(
+                    var_select
+                )
             )
             if confirm:
                 conn = sqlite3.connect("phonebook.db")
@@ -236,21 +235,21 @@ def onRefresh(self):
     conn = sqlite3.connect("phonebook.db")
     with conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT COUNT (*) FROM tbl_phoneboook")
+        cursor.execute("SELECT COUNT (*) FROM tbl_phonebook")
         count = cursor.fetchone()[0]
         i = 0
         while i < count:
             cursor.execute("SELECT col_fullname FROM tbl_phonebook")
             varList = cursor.fetchall()[i]
             for item in varList:
-                self.lstList.insert(0, str(item))
+                self.lstList1.insert(0, str(item))
                 i = i + 1
     conn.close()
 
 
 def onUpdate(self):
     try:
-        var_select = self.lstList1.cursorselection()[0]  # index of the list selection
+        var_select = self.lstList1.curselection()[0]  # index of the list selection
         var_value = self.lstList1.get(var_select)  # list selection's text value
     except:
         messagebox.showinfo(
@@ -258,7 +257,7 @@ def onUpdate(self):
             "No name was selected from the list box. \nCancelling the Update request.",
         )
         return
-    # The user will only be allowed toupdate changes for the phone and email
+    # The user will only be allowed to update changes for the phone and email
     # for name changes, the user will need to delete the entire record to maintain database integrity
     var_phone = (
         self.txt_phone.get().strip()
@@ -270,13 +269,13 @@ def onUpdate(self):
         conn = sqlite3.connect("phonebook.db")
         with conn:
             cursor = conn.cursor()
-            # count record to see if the user's changes are akready in
+            # count record to see if the user's changes are already in
             # the database...meaning, there are no changes to update
             cursor.execute("SELECT COUNT (*) FROM tbl_phonebook")
             count = cursor.fetchone()[0]
             print(count)
             cursor.execute(
-                "SELECT COUNT(col_phone) FROM tbl_phonebook WHRE col_phone = '{}'".format(
+                "SELECT COUNT(col_phone) FROM tbl_phonebook WHERE col_phone = '{}'".format(
                     var_phone
                 )
             )
@@ -288,9 +287,7 @@ def onUpdate(self):
             )
             count2 = cursor.fetchone()[0]
             print(count2)
-            if (
-                count == 0 or count2 == 0
-            ):  # if proposed changes are not already in the database, the proceed
+            if count == 0 or count2 == 0:  # if proposed changes are not already in the database, the proceed
                 response = messagebox.askokcancel(
                     "Update Request",
                     "The following changes ({}) and ({}) will be implemented for ({}). \n\nProceed with the update.".format(
@@ -302,9 +299,8 @@ def onUpdate(self):
                     with conn:
                         cursor = conn.cursor()
                         cursor.execute(
-                            "UPDATE tbl_phonebook SET col_phone = '(0)', col_email = '(1)', WHERE col_fullname = '(2)".format(
-                                var_phone, var_email, var_value
-                            )
+                            "UPDATE tbl_phonebook SET col_phone = '(0)', col_email = '(1)', WHERE col_fullname = '(2)",
+                            (var_phone, var_email, var_value),
                         )
                         onClear(self)
                         conn.commit()
@@ -321,11 +317,11 @@ def onUpdate(self):
                     ),
                 )
             onClear(self)
-        conn.clsoe()
+        conn.close()
     else:
         messagebox.showerror(
             "Missing Informtion",
-            "Please select a name form the list. \nThen edit the phone or email information.",
+            "Please select a name from the list. \nThen edit the phone or email information.",
         )
     onClear(self)
 

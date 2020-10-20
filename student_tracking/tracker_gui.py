@@ -1,14 +1,13 @@
 # Python Version 3.7.2
 # Author: Brian Brown
-# Phonebook tutorial featuring OOP,
-# Tkinter GUI and using Tkinter Parent/Child
+# Student Tracker using Tkinter GUI and sqlite3
 
 from tkinter import *
 import tkinter as tk
 
 # import our other modules
-import phonebook_main
-import phonebook_func
+import tracker_main
+import tracker_func
 
 
 def load_gui(self):
@@ -21,11 +20,11 @@ def load_gui(self):
     self.lbl_phone.grid(row=4, column=0, padx=(27, 0), pady=(10, 0), sticky=N + W)
     self.lbl_email = tk.Label(self.master, text="Email Address:")
     self.lbl_email.grid(row=6, column=0, padx=(27, 0), pady=(10, 0), sticky=N + W)
-    self.lbl_user = tk.Label(self.master, text="User:")
-    self.lbl_user.grid(row=0, column=2, padx=(0, 0), pady=(10, 0), sticky=N + W)
+    self.lbl_course = tk.Label(self.master, text="Current Course:")
+    self.lbl_course.grid(row=0, column=2, padx=(0, 0), pady=(10, 0), sticky=N + W)
 
-    self.txt_fname = tk.Entry(self.master, text="")
-    self.txt_fname.grid(
+    self.text_fname = tk.Entry(self.master, text="")
+    self.text_fname.grid(
         row=1,
         column=0,
         rowspan=1,
@@ -34,8 +33,8 @@ def load_gui(self):
         pady=(0, 0),
         sticky=N + E + W,
     )
-    self.txt_lname = tk.Entry(self.master, text="")
-    self.txt_lname.grid(
+    self.text_lname = tk.Entry(self.master, text="")
+    self.text_lname.grid(
         row=3,
         column=0,
         rowspan=1,
@@ -44,8 +43,8 @@ def load_gui(self):
         pady=(0, 0),
         sticky=N + E + W,
     )
-    self.txt_phone = tk.Entry(self.master, text="")
-    self.txt_phone.grid(
+    self.text_phone = tk.Entry(self.master, text="")
+    self.text_phone.grid(
         row=5,
         column=0,
         rowspan=1,
@@ -54,8 +53,8 @@ def load_gui(self):
         pady=(0, 0),
         sticky=N + E + W,
     )
-    self.txt_email = tk.Entry(self.master, text="")
-    self.txt_email.grid(
+    self.text_email = tk.Entry(self.master, text="")
+    self.text_email.grid(
         row=7,
         column=0,
         rowspan=1,
@@ -70,7 +69,7 @@ def load_gui(self):
     self.lstList1 = Listbox(
         self.master, exportselection=0, yscrollcommand=self.scrollbar1.set
     )
-    self.lstList1.bind("<<ListboxSelect>>"), lambda event: phonebook_func.onSelect(
+    self.lstList1.bind("<<ListboxSelect>>"), lambda event: tracker_func.onSelect(
         self, event
     )
     self.scrollbar1.config(command=self.lstList1.yview)
@@ -98,7 +97,7 @@ def load_gui(self):
         width=12,
         height=2,
         text="Add",
-        command=lambda: phonebook_func.addToList(self),
+        command=lambda: tracker_func.addToList(self),
     )
     self.btn_add.grid(row=8, column=0, padx=(25, 0), pady=(45, 10), sticky=W)
     self.btn_update = tk.Button(
@@ -106,7 +105,7 @@ def load_gui(self):
         width=12,
         height=2,
         text="Update",
-        command=lambda: phonebook_func.onUpdate(self),
+        command=lambda: tracker_func.onUpdate(self),
     )
     self.btn_update.grid(row=8, column=1, padx=(15, 0), pady=(45, 10), sticky=W)
     self.btn_delete = tk.Button(
@@ -114,7 +113,7 @@ def load_gui(self):
         width=12,
         height=2,
         text="Delete",
-        command=lambda: phonebook_func.onDelete(self),
+        command=lambda: tracker_func.onDelete(self),
     )
     self.btn_delete.grid(row=8, column=2, padx=(15, 0), pady=(45, 10), sticky=W)
     self.btn_close = tk.Button(
@@ -122,14 +121,14 @@ def load_gui(self):
         width=12,
         height=2,
         text="Close",
-        command=lambda: phonebook_func.ask_quit(self),
+        command=lambda: tracker_func.ask_quit(self),
     )
     self.btn_close.grid(
         row=8, column=4, columnspan=1, padx=(15, 0), pady=(45, 10), sticky=E
     )
 
-    phonebook_func.create_db(self)
-    phonebook_func.onRefresh(self)
+    tracker_func.create_db(self)
+    tracker_func.onRefresh(self)
 
 
 if __name__ == "__main__":
