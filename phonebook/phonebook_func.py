@@ -63,7 +63,8 @@ def first_run(self):
         if count < 1:
             cur.execute(
                 "INSERT INTO tbl_phonebook (col_fname,col_lname,col_fullname,col_phone,col_email) VALUES (?,?,?,?,?)",
-                ("John", "Doe", "John Doe", "111-111-1111", "jdoe@email.com"))
+                ("John", "Doe", "John Doe", "111-111-1111", "jdoe@email.com"),
+            )
             conn.commit()
     conn.close()
 
@@ -85,8 +86,9 @@ def onSelect(self, event):
     with conn:
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT col_fname, col_lname, col_phone, col_email FROM tbl_phonebook WHERE col_fullname = (?)",
-            [value])
+            """SELECT col_fname, col_lname, col_phone, col_email FROM tbl_phonebook WHERE col_fullname = (?)""",
+            [value],
+        )
         varBody = cursor.fetchall()
         # This returns a tuple and we can slice it into 4 parts using data[] during the interaction
     for data in varBody:
@@ -143,7 +145,7 @@ def addToList(self):
                 print("chkName: {}".format(chkName))
                 cursor.execute(
                     "INSERT INTO tbl_phonebook (col_fname, col_lname, col_fullname, col_phone, col_email) VALUES (?, ?, ?, ?, ?)",
-                    (var_fname, var_lname, var_fullname, var_phone, var_email)
+                    (var_fname, var_lname, var_fullname, var_phone, var_email),
                 )
                 self.lstList1.insert(
                     END, var_fullname
@@ -154,7 +156,7 @@ def addToList(self):
                     "Name Error",
                     "'{}' already exists in the database! Please choose a different name.".format(
                         var_fullname
-                    )
+                    ),
                 )
                 onClear(self)  # call the function to clear all text boxes
         conn.commit()
@@ -271,23 +273,23 @@ def onUpdate(self):
             cursor = conn.cursor()
             # count record to see if the user's changes are already in
             # the database...meaning, there are no changes to update
-            cursor.execute("SELECT COUNT (*) FROM tbl_phonebook")
-            count = cursor.fetchone()[0]
-            print(count)
             cursor.execute(
                 "SELECT COUNT(col_phone) FROM tbl_phonebook WHERE col_phone = '{}'".format(
                     var_phone
                 )
             )
+            count = cursor.fetchone()[0]
             print(count)
             cursor.execute(
-                "SELECT COUNT(col_email) FROM tbl_phonebook WHRE col_email = '{}'".format(
+                "SELECT COUNT(col_email) FROM tbl_phonebook WHERE col_email = '{}'".format(
                     var_email
                 )
             )
             count2 = cursor.fetchone()[0]
             print(count2)
-            if count == 0 or count2 == 0:  # if proposed changes are not already in the database, the proceed
+            if (
+                count == 0 or count2 == 0
+            ):  # if proposed changes are not already in the database, the proceed
                 response = messagebox.askokcancel(
                     "Update Request",
                     "The following changes ({}) and ({}) will be implemented for ({}). \n\nProceed with the update.".format(

@@ -70,8 +70,8 @@ def load_gui(self):
     self.lstList1 = Listbox(
         self.master, exportselection=0, yscrollcommand=self.scrollbar1.set
     )
-    self.lstList1.bind("<<ListboxSelect>>"), lambda event: phonebook_func.onSelect(
-        self, event
+    self.lstList1.bind(
+        "<<ListboxSelect>>", lambda event: phonebook_func.onSelect(self, event)
     )
     self.scrollbar1.config(command=self.lstList1.yview)
     self.scrollbar1.grid(
