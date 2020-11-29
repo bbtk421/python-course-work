@@ -6,8 +6,6 @@ class ParentWindow(Frame):
       def __init__(self, master):
             Frame.__init__(self)
 
-            
-
             self.master = master
             self.master.resizable(width = False, height = False)
             self.master.geometry('{}x{}'.format(450,175))
@@ -32,7 +30,6 @@ class ParentWindow(Frame):
             self.btnClose = tk.Button(self.master,text ="Close Program", width=12, height=2, command=quit)
             self.btnClose.grid(row=11, column=4, padx=(20,25), pady=(10,4), sticky=SE)
             
-      
 
       def open_source(self):
            source = filedialog.askdirectory(initialdir="/", title="Select a file")
