@@ -29,7 +29,6 @@ class ParentWindow(Frame):
                   f = open("webpagegen.html", "w")
                   f.write("<html>\n<body>\n<p>" + customText + "</p>\n</body>\n</html>")
                   f.close()
-
                   webbrowser.open_new_tab("webpagegen.html")
 
 if __name__ =="__main__":
