@@ -31,7 +31,7 @@ class ParentWindow(Frame): #brought all this over from the earlier assignment
             self.textBox2 = Entry(self.master, width=40)
             self.textBox2.grid(column = 2, row = 5, columnspan = 3, padx=(20,25), pady=(10,4))
 
-            self.btnCheck = tk.Button(self.master,text ="Check for files...", width=12, height=2, command=lambda:self.check_files)#should only run when pushing the button
+            self.btnCheck = tk.Button(self.master,text ="Check for files...", width=12, height=2, command=lambda:self.check_files())#should only run when pushing the button
             self.btnCheck.grid(row=11, column=1, padx=(20,25), pady=(4,4), sticky=SW)
 
             self.btnClose = tk.Button(self.master,text ="Close Program", width=12, height=2, command=quit)
@@ -49,12 +49,13 @@ class ParentWindow(Frame): #brought all this over from the earlier assignment
             self.textBox2.insert(0, dest)
 
       def check_files(self): #should run when clicking the Check for files... button
-            for i in files:
+            print("test")
+            """for i in files:
                   modifyDate = datetime.datetime.fromtimestamp(os.path.getmtime(source+i))
                   todaysDate = datetime.datetime.today()
                   modifyDateLimit = modifyDate + datetime.timedelta(days=1)
             if modifyDateLimit > todaysDate:                                             
-                  shutil.copy(source+i, dest)
+                  shutil.copy(source+i, dest)"""
 
 
 if __name__ =="__main__":
