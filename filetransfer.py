@@ -50,12 +50,12 @@ class ParentWindow(Frame): #brought all this over from the earlier assignment
 
       def check_files(self): #should run when clicking the Check for files... button
             print("test")
-            """for i in files:
+            for i in files:
                   modifyDate = datetime.datetime.fromtimestamp(os.path.getmtime(source+i))
                   todaysDate = datetime.datetime.today()
                   modifyDateLimit = modifyDate + datetime.timedelta(days=1)
             if modifyDateLimit > todaysDate:                                             
-                  shutil.copy(source+i, dest)"""
+                  shutil.copy(source+i, dest)
 
 
 if __name__ =="__main__":
