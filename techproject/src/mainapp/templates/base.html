@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" class="bg_img">
 
@@ -7,29 +8,19 @@
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    <!--<link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}">-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}">
 </head>
 
 <body>
     <div class="page_container">
-        <!--{% include "navbar.html" %}-->
-        <ul class="topnav">
-            <li><a href="#">Royal Hotels</a></li>
-            <li><a href="#">See Our Menu</a></li>
-            <li><a href="#">Admin Panel</a></li>
-        </ul>
+        {% include "navbar.html" %}
         <header class="header-title">
             <h1>{% block header %}{% endblock %}</h1>
         </header>
         {% block content %}{% endblock %}
     </div>
 
-    <section id="block-footer">
-        <p id="footer-right"><a href="#">Terms</a>|<a href="#">Privacy</a></p>
-        <p id="footer-left">&copy;2018 - The Fictional, Royal Hotels</p>
-    </section>
-
-    <!--{% include "footer.html" %}-->
+    {% include "footer.html" %}
 </body>
 
 </html>
